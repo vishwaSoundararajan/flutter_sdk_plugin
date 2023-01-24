@@ -194,7 +194,7 @@ class RandomNumberStreamHandler : EventChannel.StreamHandler {
 
     override fun onListen(arguments: Any?,events: EventChannel.EventSink) {
 
-        events.success("Method Channel  :: Received a Notification")
+        events.success("Event Channel  :: Received a Notification")
     }
 
     override fun onCancel(arguments: Any?) {
