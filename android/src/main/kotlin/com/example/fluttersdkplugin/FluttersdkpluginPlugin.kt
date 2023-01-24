@@ -15,7 +15,7 @@ import io.mob.resu.reandroidsdk.ReAndroidSDK
 import io.mob.resu.reandroidsdk.ResulticksChannel
 import org.json.JSONObject
 import java.util.logging.StreamHandler
-import kotlin.random.Random
+//import kotlin.random.Random
 
 
 /** FluttersdkpluginPlugin */
@@ -29,8 +29,6 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
   private lateinit var context: Context
   private lateinit var activity: Activity
  private lateinit var eventChannel: EventChannel
- private lateinit var fluterplugin:FluttersdkpluginPlugin
- private lateinit var title: String
 
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
