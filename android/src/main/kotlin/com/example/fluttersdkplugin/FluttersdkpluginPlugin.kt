@@ -156,14 +156,9 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
       var tittle: String? = call.argument("title")
       if (tittle != null) {
        print("Received a $tittle")
-        eventChannel.setStreamHandler(RandomNumberStreamHandler())
+        eventChannel.setStreamHandler(MessageNotifier())
       }
     }
-
-//    else if(call.method == "callFromAndroid") {
-//
-//       eventChannel.emite()
-//    }
 
     else {
       result.notImplemented()
@@ -178,39 +173,38 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
 }
 
 
-class RandomNumberStreamHandler : EventChannel.StreamHandler {
-    //var sink: EventChannel.EventSink? = null
-    //var handler: Handler? = null
+class MessageNotifier : EventChannel.StreamHandler {
 
-//    private val runnable = Runnable {
-//        sendNewRandomNumber()
-//    }
+  override fun onListen(arguments: Any?,events: EventChannel.EventSink) {
+    events.success("Event Channel  :: Received a Notification")
+  }
+  override fun onCancel(arguments: Any?) {
+
+  }
+
+}
+//class RandomNumberStreamHandler: EventChannel.StreamHandler {
+//  var sink: EventChannel.EventSink? = null
+//  var handler: Handler? = null
 //
-//    fun sendNewRandomNumber() {
-//        val randomNumber = Random.nextInt(100)
-//        sink?.success(randomNumber)
-//        handler?.postDelayed(runnable, 1000)
-//    }
-
-    override fun onListen(arguments: Any?,events: EventChannel.EventSink) {
-
-        events.success("Event Channel  :: Received a Notification")
-    }
-
-    override fun onCancel(arguments: Any?) {
-       // sink = null
-       // handler?.removeCallbacks(runnable)
-    }
-
-//  override fun onListen(arguments: Any?,events:EventChannel.EventSink?) {
+//  private val runnable = Runnable {
+//    sendNewRandomNumber()
+//  }
+//
+//  fun sendNewRandomNumber() {
+//    val randomNumber = Random().nextInt(9)
+//    sink?.success(randomNumber)
+//    handler?.postDelayed(runnable, 1000)
+//  }
+//
+//  override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
 //    sink = events
-//        handler = Handler()
-//        handler?.equals("Received Notification")
+//    handler = Handler()
+//    handler?.post(runnable)
 //  }
 //
 //  override fun onCancel(arguments: Any?) {
 //    sink = null
-//    handler?.equals("Notification not received")
+//    handler?.removeCallbacks(runnable)
 //  }
-
-}
+//}

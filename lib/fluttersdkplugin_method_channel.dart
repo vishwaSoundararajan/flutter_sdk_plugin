@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
@@ -10,6 +11,17 @@ class MethodChannelFluttersdkplugin extends FluttersdkpluginPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel = const MethodChannel('fluttersdkplugin');
+  static const eventChannel = EventChannel('example.com/channel');
+
+  eventTriggered(){
+    eventChannel.receiveBroadcastStream().listen((datta) {
+      if(datta is String){
+        print(datta);
+      }
+    }, onError: (error) {
+      print("Error: $error");
+    });
+  }
 
   @override
   Future<String?> getPlatformVersion() async {
@@ -70,7 +82,9 @@ class MethodChannelFluttersdkplugin extends FluttersdkpluginPlatform {
   @override
   onMessageReceived(String title){
     methodChannel.invokeMethod('onMessageReceived',{'title':title});
-
+    Timer(const Duration(seconds: 2),(){
+      eventTriggered();
+    });
   }
 
 }

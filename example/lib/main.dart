@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:fluttersdkplugin/fluttersdkplugin.dart';
-
+import 'package:fluttersdkplugin/fluttersdkplugin_method_channel.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -25,7 +25,8 @@ class _MyAppState extends State<MyApp> {
 
 
   final _fluttersdkpluginPlugin = Fluttersdkplugin();
-  static const events = EventChannel('example.com/channel');
+  final _methodChannelflutterSdkPlugin= MethodChannelFluttersdkplugin();
+  //static const events = EventChannel('example.com/channel');
   static const methodChannel=MethodChannel("flutter/test/platformChannels");
 // void onMethodCall(MethodCall call){
 //   if (call.method=="callFromAndroid") {
@@ -37,6 +38,7 @@ class _MyAppState extends State<MyApp> {
       double lat = 13.0827;
       double lang = 80.2707;
       _fluttersdkpluginPlugin.pushLocation(lat, lang);
+
     }
     newNotification() {
       var notificationTitle = "sample Title";
@@ -142,19 +144,20 @@ class _MyAppState extends State<MyApp> {
       //onListenBattery();
     }
 
-    eventTriggered(){
-      events.receiveBroadcastStream().listen((datta) {
-        if(datta is String){
-          setState(() {
-             data=datta;
-          });
-        //  print("received integer: $data");
-        }
-      }, onError: (error) {
-        print("Error: $error");
-      });
-    }
+    // eventTriggered(){
+    //   events.receiveBroadcastStream().listen((datta) {
+    //     if(datta is String){
+    //       setState(() {
+    //          data=datta;
+    //       });
+    //     //  print("received integer: $data");
+    //     }
+    //   }, onError: (error) {
+    //     print("Error: $error");
+    //   });
+    // }
     // Platform messages are asynchronous, so we initialize in an async method.
+
     Future<void> initPlatformState() async {
       String platformVersion;
       // Platform messages may fail, so we use a try/catch PlatformException.
@@ -206,7 +209,8 @@ class _MyAppState extends State<MyApp> {
                         newNotification();
                         _fluttersdkpluginPlugin.onMessageReceived("Background Notification");
                         Timer(const Duration(seconds: 2),(){
-                          eventTriggered();
+                          //eventTriggered();
+                         // _methodChannelflutterSdkPlugin.eventTriggered();
                         });
 
                       }, child: Text("Add New Notification"),),

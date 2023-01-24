@@ -47,6 +47,7 @@ class Fluttersdkplugin {
   }
   onMessageReceived(String title) {
    FluttersdkpluginPlatform.instance.onMessageReceived(title);
+
   }
 
 }
