@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,10 +29,6 @@ class MethodChannelFluttersdkplugin extends FluttersdkpluginPlatform {
   onTrackEvent(String content) {
     methodChannel.invokeMapMethod('onTrackEvent',{'string': content});
   }
-  // @override
-  // deleteNotificationByCampaignId(String cid) {
-  //   methodChannel.invokeMapMethod('onTrackEvent',{'deleteNotificationByCampaignId': cid});
-  // }
   @override
   deleteNotificationByCampaignId(content) {
     methodChannel.invokeMapMethod('deleteNotificationByCampaignId',{'cid':content});
@@ -66,8 +64,13 @@ class MethodChannelFluttersdkplugin extends FluttersdkpluginPlatform {
     methodChannel.invokeMapMethod('deepLinkData');
   }
   @override
-  unReadNotification(content) {
-    methodChannel.invokeMapMethod('unReadNotification',{'cid':content});
+  unReadNotification(String cid) {
+    methodChannel.invokeMapMethod('unReadNotification',{'cid':cid});
+  }
+  @override
+  onMessageReceived(String title){
+    methodChannel.invokeMethod('onMessageReceived',{'title':title});
+
   }
 
 }

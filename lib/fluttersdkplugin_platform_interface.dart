@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'fluttersdkplugin_method_channel.dart';
@@ -71,6 +73,8 @@ abstract class FluttersdkpluginPlatform extends PlatformInterface {
   void unReadNotification(String cid) {
     throw UnimplementedError('unReadNotification() has not been implemented');
   }
-
+ onMessageReceived(String title) {
+    throw UnimplementedError('onMessageReceived() has not been implemented.');
+  }
 
 }

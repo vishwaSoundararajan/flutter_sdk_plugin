@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'fluttersdkplugin_platform_interface.dart';
 
 class Fluttersdkplugin {
@@ -44,4 +45,8 @@ class Fluttersdkplugin {
   void unReadNotification(String cid) {
     FluttersdkpluginPlatform.instance.unReadNotification(cid);
   }
+  onMessageReceived(String title) {
+   FluttersdkpluginPlatform.instance.onMessageReceived(title);
+  }
+
 }

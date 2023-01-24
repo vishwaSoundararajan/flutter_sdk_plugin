@@ -1,19 +1,23 @@
 package com.example.fluttersdkplugin
-
+//import io.flutter.plugin.common.EventChannel.StreamHandler
 import android.app.Activity
 import android.content.Context
+import android.os.*
 import androidx.annotation.NonNull
-import io.flutter.embedding.engine.plugins.activity.ActivityAware
-import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.plugin.common.EventChannel
+import io.flutter.plugin.common.EventChannel.EventSink
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 import io.mob.resu.reandroidsdk.MRegisterUser
 import io.mob.resu.reandroidsdk.ReAndroidSDK
 import io.mob.resu.reandroidsdk.ResulticksChannel
 import org.json.JSONObject
+import java.util.logging.StreamHandler
+import kotlin.random.Random
+
+
 /** FluttersdkpluginPlugin */
 class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
   /// The MethodChannel that will the communication between Flutter and native Android
@@ -24,24 +28,38 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
   private var resulticksChannel= ResulticksChannel()
   private lateinit var context: Context
   private lateinit var activity: Activity
+ private lateinit var eventChannel: EventChannel
+ private lateinit var fluterplugin:FluttersdkpluginPlugin
+ private lateinit var title: String
+
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "fluttersdkplugin")
     channel.setMethodCallHandler(this)
     context = flutterPluginBinding.getApplicationContext()
+    eventChannel= EventChannel(flutterPluginBinding.binaryMessenger,"example.com/channel")
+
+//    val handler = Handler(Looper.getMainLooper())
+//    handler.post {
+//      MethodChannel(
+//        flutterPluginBinding.binaryMessenger,
+//        "flutter/test/platformchannels"
+//      ).invokeMethod("androidMethodName", "hello all")
+//    }
   }
 
-  override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: MethodChannel.Result) {
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
     }
+
     else if(call.method == "pushLocation") {
       var lat:Double? = call.argument("lat")
       var lang:Double? = call.argument("lang")
       if (lat != null) {
         if (lang != null) {
           ReAndroidSDK.getInstance(context).onLocationUpdate(lat,lang)
-        }
+          }
       }
     }
     else if(call.method == "addNewNotification") {
@@ -131,8 +149,23 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
       var cid:String? = call.argument("cid")
       if (cid != null) {
         ReAndroidSDK.getInstance(context).unReadNotification(cid)
+        override@
+        channel.invokeMethod("callFromAndroid", "call from android")
+
       }
     }
+    else if(call.method == "onMessageReceived") {
+      var tittle: String? = call.argument("title")
+      if (tittle != null) {
+       print("Received a $tittle")
+        eventChannel.setStreamHandler(RandomNumberStreamHandler())
+      }
+    }
+
+//    else if(call.method == "callFromAndroid") {
+//
+//       eventChannel.emite()
+//    }
 
     else {
       result.notImplemented()
@@ -142,4 +175,44 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
   }
+
+
+}
+
+
+class RandomNumberStreamHandler : EventChannel.StreamHandler {
+    //var sink: EventChannel.EventSink? = null
+    //var handler: Handler? = null
+
+//    private val runnable = Runnable {
+//        sendNewRandomNumber()
+//    }
+//
+//    fun sendNewRandomNumber() {
+//        val randomNumber = Random.nextInt(100)
+//        sink?.success(randomNumber)
+//        handler?.postDelayed(runnable, 1000)
+//    }
+
+    override fun onListen(arguments: Any?,events: EventChannel.EventSink) {
+
+        events.success("Notification")
+    }
+
+    override fun onCancel(arguments: Any?) {
+       // sink = null
+       // handler?.removeCallbacks(runnable)
+    }
+
+//  override fun onListen(arguments: Any?,events:EventChannel.EventSink?) {
+//    sink = events
+//        handler = Handler()
+//        handler?.equals("Received Notification")
+//  }
+//
+//  override fun onCancel(arguments: Any?) {
+//    sink = null
+//    handler?.equals("Notification not received")
+//  }
+
 }
