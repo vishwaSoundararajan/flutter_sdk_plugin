@@ -208,10 +208,6 @@ class _MyAppState extends State<MyApp> {
                       ElevatedButton(onPressed: () {
                         newNotification();
                         _fluttersdkpluginPlugin.onMessageReceived("Background Notification");
-                        Timer(const Duration(seconds: 2),(){
-                          //eventTriggered();
-                         // _methodChannelflutterSdkPlugin.eventTriggered();
-                        });
 
                       }, child: Text("Add New Notification"),),
                       ElevatedButton(onPressed: () {

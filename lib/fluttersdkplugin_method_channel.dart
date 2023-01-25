@@ -14,13 +14,20 @@ class MethodChannelFluttersdkplugin extends FluttersdkpluginPlatform {
   static const eventChannel = EventChannel('example.com/channel');
 
   eventTriggered(){
-    eventChannel.receiveBroadcastStream().listen((datta) {
-      if(datta is String){
-        print(datta);
-      }
-    }, onError: (error) {
-      print("Error: $error");
+    Timer(const Duration(seconds: 2),(){
+      eventChannel.receiveBroadcastStream().listen((datta) {
+        if(datta is String){
+          if (kDebugMode) {
+            print(datta);
+          }
+        }
+      }, onError: (error) {
+        if (kDebugMode) {
+          print("Error: $error");
+        }
+      });
     });
+
   }
 
   @override
@@ -82,9 +89,7 @@ class MethodChannelFluttersdkplugin extends FluttersdkpluginPlatform {
   @override
   onMessageReceived(String title){
     methodChannel.invokeMethod('onMessageReceived',{'title':title});
-    Timer(const Duration(seconds: 2),(){
       eventTriggered();
-    });
   }
 
 }
