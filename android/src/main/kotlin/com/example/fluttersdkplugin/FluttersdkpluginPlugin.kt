@@ -31,6 +31,7 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
  private lateinit var eventChannel: EventChannel
 
 
+
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "fluttersdkplugin")
     channel.setMethodCallHandler(this)
@@ -168,7 +169,9 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
   }
-
+  fun callEventChannel(){
+    eventChannel.setStreamHandler(MessageNotifier())
+  }
 
 }
 

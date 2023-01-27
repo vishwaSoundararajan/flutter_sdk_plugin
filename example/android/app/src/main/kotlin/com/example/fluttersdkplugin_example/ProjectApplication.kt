@@ -5,7 +5,7 @@ import io.mob.resu.reandroidsdk.AppConstants
 class ProjectApplication:Application() {
     override fun onCreate() {
         super.onCreate()
-        ReAndroidSDK.getInstance(this)
+        ReAndroidSDK.getInstance(this);
         AppConstants.LogFlag=true;
     }
 }
