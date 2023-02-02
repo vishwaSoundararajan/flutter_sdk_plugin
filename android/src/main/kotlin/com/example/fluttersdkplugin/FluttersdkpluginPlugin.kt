@@ -90,6 +90,9 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
       }
     }
     else if(call.method == "appConversionTracking") {
+//      val jsonString = "{\"name\":\"John\",\"age\":30,\"city\":\"New York\"}"
+//      val jsonObject: org.json.JSONObject = JSONObject(jsonString)
+//      ReAndroidSDK.getInstance(context).appConversionTracking(jsonObject)
       ReAndroidSDK.getInstance(context).appConversionTracking()
     }
     else if(call.method == "formDataCapture") {
@@ -104,7 +107,7 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
       result.success(ReAndroidSDK.getInstance(context).readNotificationCount)
     }
     else if(call.method == "updatePushToken") {
-      var token: String?=call.argument("token")
+      var token: String?=call.argument("regToken")
       ReAndroidSDK.getInstance(context).updatePushToken(token)
     }
 
