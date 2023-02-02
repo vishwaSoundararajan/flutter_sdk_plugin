@@ -124,7 +124,7 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
       val education:String?=call.argument("education")
       val employed:Boolean?=call.argument("employed")
       val married:Boolean?=call.argument("employed")
-
+      val adId:String?=call.argument("adId")
       val obj = MRegisterUser()
       obj.userUniqueId=uid
       obj.name=name
@@ -136,6 +136,7 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
       obj.profileUrl=profileUrl
       obj.dob=dob
       obj.education=education
+      obj.adId=adId
       if (employed != null) {
         obj.isEmployed=employed
       }

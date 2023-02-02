@@ -75,8 +75,8 @@ class MethodChannelFluttersdkplugin extends FluttersdkpluginPlatform {
     methodChannel.invokeMapMethod('updatePushToken',{'regToken':regToken});
   }
   @override
-  onDeviceUserRegister(String uid, String name, String age, String email, String phone, String gender, String token, String profileUrl, String dob, String education, bool employed, bool married) {
-    methodChannel.invokeMapMethod('onDeviceUserRegister',{'uid':uid,'name':name,'age':age,'email':email,'phone':phone,'gender':gender,'token':token,'profileUrl':profileUrl,'dob':dob,'education':education,'employed':employed,'married':married});
+  onDeviceUserRegister(String uid, String name, String age, String email, String phone, String gender, String token, String profileUrl, String dob, String education, bool employed, bool married,String adId) {
+    methodChannel.invokeMapMethod('onDeviceUserRegister',{'uid':uid,'name':name,'age':age,'email':email,'phone':phone,'gender':gender,'token':token,'profileUrl':profileUrl,'dob':dob,'education':education,'employed':employed,'married':married,'adId':adId});
   }
   @override
   deepLinkData() {

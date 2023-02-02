@@ -62,7 +62,7 @@ abstract class FluttersdkpluginPlatform extends PlatformInterface {
     throw UnimplementedError('updatePushToken() has not been implemented');
   }
 
-  void onDeviceUserRegister(String uid, String name, String age, String email, String phone, String gender, String token, String profileUrl, String dob, String education, bool employed, bool married) {
+  void onDeviceUserRegister(String uid, String name, String age, String email, String phone, String gender, String token, String profileUrl, String dob, String education, bool employed, bool married,String adId) {
     throw UnimplementedError('onDeviceUserRegister() has not been implemented');
   }
 

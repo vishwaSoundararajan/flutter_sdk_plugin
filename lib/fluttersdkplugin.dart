@@ -36,8 +36,8 @@ class Fluttersdkplugin {
   void updatePushToken(String token) {
     FluttersdkpluginPlatform.instance.updatePushToken(token);
   }
-  void onDeviceUserRegister(String uid, String name, String age, String email, String phone, String gender, String token, String profileUrl, String dob, String education, bool employed, bool married) {
-    FluttersdkpluginPlatform.instance.onDeviceUserRegister(uid,name,age,email,phone,gender,token,profileUrl,dob,education,employed,married);
+  void onDeviceUserRegister(String uid, String name, String age, String email, String phone, String gender, String token, String profileUrl, String dob, String education, bool employed, bool married,String adId) {
+    FluttersdkpluginPlatform.instance.onDeviceUserRegister(uid,name,age,email,phone,gender,token,profileUrl,dob,education,employed,married,adId);
   }
   void deepLinkData () {
     FluttersdkpluginPlatform.instance.deepLinkData();

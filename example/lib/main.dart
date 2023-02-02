@@ -99,7 +99,8 @@ class _MyAppState extends State<MyApp> {
           '2/8/2005',
           'BE',
           true,
-          false);
+          false,
+          "At_928jw8");
     }
     getdeepLinkData() {
       _fluttersdkpluginPlugin.deepLinkData();
