@@ -3,6 +3,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.os.*
+import com.example.fluttersdkplugin.FluttersdkpluginPlugin
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
@@ -11,6 +12,12 @@ import kotlinx.coroutines.delay
 
 
 class MainActivity: FlutterActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        FluttersdkpluginPlugin().initResdk(this)
+    }
+
 //    val channel = EventChannel(getFlutterView(), "your_channel_name")
 //    private var BATTERY_CHANNEL= "fluttersdk/battery";
 //    private lateinit var channel:MethodChannel

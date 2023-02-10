@@ -114,7 +114,7 @@ class _MyAppState extends State<MyApp> {
         print(notificationCount);
       }
       return null;
-    }
+     }
 
    // callToAndroid(){
    //  _fluttersdkpluginPlugin.callFromAndroid();

@@ -2,7 +2,6 @@
     package="com.example.fluttersdkplugin_example">
    <application
         android:label="fluttersdkplugin_example"
-        android:name=".ProjectApplication"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

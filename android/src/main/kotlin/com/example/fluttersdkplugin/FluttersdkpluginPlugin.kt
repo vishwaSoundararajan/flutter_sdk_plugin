@@ -10,6 +10,7 @@ import io.flutter.plugin.common.EventChannel.EventSink
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
+import io.mob.resu.reandroidsdk.AppConstants
 import io.mob.resu.reandroidsdk.MRegisterUser
 import io.mob.resu.reandroidsdk.ReAndroidSDK
 import io.mob.resu.reandroidsdk.ResulticksChannel
@@ -59,7 +60,7 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
         if (lang != null) {
           ReAndroidSDK.getInstance(context).onLocationUpdate(lat,lang)
           }
-      }
+       }
     }
     else if(call.method == "addNewNotification") {
       var title:String? = call.argument("title")
@@ -169,7 +170,11 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
       result.notImplemented()
     }
   }
-
+  fun initResdk(flutterContext:Context){
+//   var appContext=flutterContext.applicationContext as Application
+    ReAndroidSDK.getInstance(flutterContext)
+    AppConstants.LogFlag=true;
+  }
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
   }

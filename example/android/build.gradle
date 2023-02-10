@@ -15,16 +15,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "https://jitpack.io"
-            credentials {username authToken}
-        }
 
-    }
-    configurations.all {
-        resolutionStrategy {
-            cacheChangingModulesFor 0, 'seconds'
-        }
+
     }
 
 }

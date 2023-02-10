@@ -67,7 +67,6 @@ flutter {
 }
 
 dependencies {
-    implementation 'io.resu:ReAndroidSDK_5f7a2e8e_1bdb_4739_9d28_278a2759394c:-SNAPSHOT'
     //implementation 'io.resu:ReAndroidSDK:-SNAPSHOT'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
