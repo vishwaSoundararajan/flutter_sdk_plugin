@@ -73,8 +73,8 @@ abstract class FluttersdkpluginPlatform extends PlatformInterface {
   void unReadNotification(String cid) {
     throw UnimplementedError('unReadNotification() has not been implemented');
   }
- onMessageReceived(String title) {
-    throw UnimplementedError('onMessageReceived() has not been implemented.');
-  }
+ // onMessageReceived(String title) {
+ //    throw UnimplementedError('onMessageReceived() has not been implemented.');
+ //  }
 
 }

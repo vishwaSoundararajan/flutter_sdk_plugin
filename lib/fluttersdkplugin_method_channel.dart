@@ -86,10 +86,10 @@ class MethodChannelFluttersdkplugin extends FluttersdkpluginPlatform {
   unReadNotification(String cid) {
     methodChannel.invokeMapMethod('unReadNotification',{'cid':cid});
   }
-  @override
-  onMessageReceived(String title){
-    methodChannel.invokeMethod('onMessageReceived',{'title':title});
-      eventTriggered();
-  }
+  // @override
+  // onMessageReceived(String title){
+  //   methodChannel.invokeMethod('onMessageReceived',{'title':title});
+  //     eventTriggered();
+  // }
 
 }

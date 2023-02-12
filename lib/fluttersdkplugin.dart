@@ -45,9 +45,9 @@ class Fluttersdkplugin {
   void unReadNotification(String cid) {
     FluttersdkpluginPlatform.instance.unReadNotification(cid);
   }
-  onMessageReceived(String title) {
-   FluttersdkpluginPlatform.instance.onMessageReceived(title);
-
-  }
+  // onMessageReceived(String title) {
+  //  FluttersdkpluginPlatform.instance.onMessageReceived(title);
+  //
+  // }
 
 }

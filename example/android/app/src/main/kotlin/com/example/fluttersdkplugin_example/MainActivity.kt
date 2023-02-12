@@ -1,8 +1,10 @@
 package com.example.fluttersdkplugin_example
+import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
-import android.os.*
+import android.content.IntentFilter
+import android.os.Bundle
+import io.flutter.Log
 import com.example.fluttersdkplugin.FluttersdkpluginPlugin
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -12,38 +14,47 @@ import kotlinx.coroutines.delay
 
 
 class MainActivity: FlutterActivity() {
+    private lateinit var eChannel: EventChannel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FluttersdkpluginPlugin().initResdk(this)
+        eChannel.setStreamHandler(MessageNotifier(""))
+    }
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine){
+        super.configureFlutterEngine(flutterEngine)
+        val filter = IntentFilter("com.example.fluttersdkplugin_example/MY_EVENT")
+        registerReceiver(receiver, filter)
+
+        eChannel=EventChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            "com.example.fluttersdkplugin_example/channell")
+    }
+    private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            val message: String? = intent.getStringExtra("message")
+            val token:String?=intent.getStringExtra("dtoken")
+            if (message != null) {
+                callEventChannel(message)
+            }
+
+        }
     }
 
-//    val channel = EventChannel(getFlutterView(), "your_channel_name")
-//    private var BATTERY_CHANNEL= "fluttersdk/battery";
-//    private lateinit var channel:MethodChannel
-//    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-//        super.configureFlutterEngine(flutterEngine)
-//
-//        channel=MethodChannel(flutterEngine.dartExecutor.binaryMessenger,BATTERY_CHANNEL)
-//    }
-//
-//    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-//        super.onCreate(savedInstanceState, persistentState)
-//                val batteryLevel=getBatteryLevel()
-//                channel.invokeMethod("reportBatteryLevel",batteryLevel)
-//
-//
-//    }
-//    private fun getBatteryLevel():Int{
-//        val batteryLevel: Int
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-//            val batteryManager=getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-//            batteryLevel=batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-//        }else
-//        {
-//            batteryLevel=intent!!.getIntExtra(BatteryManager.EXTRA_LEVEL,-1)*1
-//        }
-//        return batteryLevel
-//    }
+    fun callEventChannel(data:String){
+        eChannel.setStreamHandler(MessageNotifier(data))
+    }
+
+}
+
+class MessageNotifier(var msg:String)  : EventChannel.StreamHandler {
+
+    override fun onListen(arguments: Any?,events: EventChannel.EventSink) {
+        events.success(msg)
+        msg="";
+    }
+    override fun onCancel(arguments: Any?) {
+
+    }
 
 }

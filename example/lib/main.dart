@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:fluttersdkplugin/fluttersdkplugin.dart';
 import 'package:fluttersdkplugin/fluttersdkplugin_method_channel.dart';
+import 'package:logger/logger.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -18,21 +20,48 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   TextEditingController controller1 = TextEditingController();
-  String _platformVersion = 'Unknown',token = "NULl";
+  String _platformVersion = 'Unknown',token = "drqaIAt0TvW1x0zi7gOsLf:APA91bEKJFpCpld3QvWYxPSkzVzu3JH7wwrRhad8Pgqnr2TZ82NkxvK31VMiKpLCeloRC-SJImNaRrGFDCydSuCPlg5Ze2tL06-NntJbq-THcO2u-CQW1n5Nx_w1yw0dEYcRudDNIoxe";
   int notificationCount = 0,_counter=0;
   late String cid;
   String data="";
 
-
+  var logger = Logger();
+  late Timer _timer;
   final _fluttersdkpluginPlugin = Fluttersdkplugin();
   final _methodChannelflutterSdkPlugin= MethodChannelFluttersdkplugin();
-  //static const events = EventChannel('example.com/channel');
+  static const events = EventChannel('com.example.fluttersdkplugin_example/channell');
   static const methodChannel=MethodChannel("flutter/test/platformChannels");
 // void onMethodCall(MethodCall call){
 //   if (call.method=="callFromAndroid") {
 //     print("method called from android");
 //   }
 // }
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+    startTimer();
+    //eventTriggered();
+    //_fluttersdkpluginPlugin.setEventChannelID("example.com/channel");
+    // handlePlatformChannelMethods();
+    //onListenBattery();
+  }
+
+  void startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      listenForMsg();
+    });
+  }
+  listenForMsg(){
+    events.receiveBroadcastStream().listen((data) {
+      if(data != ""){
+        logger.i("EventChannel :: $data");
+      }
+    }, onError: (error) {
+      print("Error: $error");
+    });
+  }
 
     passLocation() {
       double lat = 13.0827;
@@ -135,16 +164,6 @@ class _MyAppState extends State<MyApp> {
     });
     }
 
-    @override
-    void initState() {
-      super.initState();
-      initPlatformState();
-      //eventTriggered();
-        //_fluttersdkpluginPlugin.setEventChannelID("example.com/channel");
-     // handlePlatformChannelMethods();
-      //onListenBattery();
-    }
-
     // eventTriggered(){
     //   events.receiveBroadcastStream().listen((datta) {
     //     if(datta is String){
@@ -208,7 +227,7 @@ class _MyAppState extends State<MyApp> {
                       }, child: Text("Push Location"),),
                       ElevatedButton(onPressed: () {
                         newNotification();
-                        _fluttersdkpluginPlugin.onMessageReceived("Background Notification");
+                        //_fluttersdkpluginPlugin.onMessageReceived("Background Notification");
 
                       }, child: Text("Add New Notification"),),
                       ElevatedButton(onPressed: () {

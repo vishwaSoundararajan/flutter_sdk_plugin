@@ -15,6 +15,7 @@ import io.mob.resu.reandroidsdk.MRegisterUser
 import io.mob.resu.reandroidsdk.ReAndroidSDK
 import io.mob.resu.reandroidsdk.ResulticksChannel
 import org.json.JSONObject
+import com.google.firebase.messaging.RemoteMessage
 import java.util.logging.StreamHandler
 //import kotlin.random.Random
 
@@ -37,7 +38,7 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "fluttersdkplugin")
     channel.setMethodCallHandler(this)
     context = flutterPluginBinding.getApplicationContext()
-    eventChannel= EventChannel(flutterPluginBinding.binaryMessenger,"example.com/channel")
+    //eventChannel= EventChannel(flutterPluginBinding.binaryMessenger,"example.com/channel")
 
 //    val handler = Handler(Looper.getMainLooper())
 //    handler.post {
@@ -158,13 +159,13 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
 
       }
     }
-    else if(call.method == "onMessageReceived") {
-      var tittle: String? = call.argument("title")
-      if (tittle != null) {
-       print("Received a $tittle")
-        eventChannel.setStreamHandler(MessageNotifier())
-      }
-    }
+//    else if(call.method == "onMessageReceived") {
+//      var tittle: String? = call.argument("title")
+//      if (tittle != null) {
+//       print("Received a $tittle")
+//        eventChannel.setStreamHandler(MessageNotifier())
+//      }
+//    }
 
     else {
       result.notImplemented()
@@ -175,26 +176,31 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
     ReAndroidSDK.getInstance(flutterContext)
     AppConstants.LogFlag=true;
   }
+  fun clientMessageReceiver(remoteMessage:RemoteMessage){
+
+    ReAndroidSDK.getInstance(context).onReceivedCampaign(remoteMessage.data)
+  }
+
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
   }
-  fun callEventChannel(){
-    eventChannel.setStreamHandler(MessageNotifier())
-  }
+//  fun callEventChannel(){
+//    eventChannel.setStreamHandler(MessageNotifier())
+//  }
 
 }
 
 
-class MessageNotifier : EventChannel.StreamHandler {
-
-  override fun onListen(arguments: Any?,events: EventChannel.EventSink) {
-    events.success("Event Channel  :: Received a Notification")
-  }
-  override fun onCancel(arguments: Any?) {
-
-  }
-
-}
+//class MessageNotifier : EventChannel.StreamHandler {
+//
+//  override fun onListen(arguments: Any?,events: EventChannel.EventSink) {
+//    events.success("Event Channel  :: Received a Notification")
+//  }
+//  override fun onCancel(arguments: Any?) {
+//
+//  }
+//
+//}
 //class RandomNumberStreamHandler: EventChannel.StreamHandler {
 //  var sink: EventChannel.EventSink? = null
 //  var handler: Handler? = null

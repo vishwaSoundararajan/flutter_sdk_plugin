@@ -17,7 +17,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  logger: ^1.1.0
+  firebase_core: ^2.4.0
+  firebase_messaging: ^14.1.4
   fluttersdkplugin:
     # When depending on this package from a real application you should use:
     #   fluttersdkplugin: ^x.y.z
