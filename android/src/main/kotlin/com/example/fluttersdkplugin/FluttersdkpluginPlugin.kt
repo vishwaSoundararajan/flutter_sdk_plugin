@@ -1,12 +1,13 @@
 package com.example.fluttersdkplugin
 //import io.flutter.plugin.common.EventChannel.StreamHandler
+import android.R.id.message
 import android.app.Activity
 import android.content.Context
 import android.os.*
 import androidx.annotation.NonNull
+import com.google.firebase.messaging.RemoteMessage
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
-import io.flutter.plugin.common.EventChannel.EventSink
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -15,13 +16,17 @@ import io.mob.resu.reandroidsdk.MRegisterUser
 import io.mob.resu.reandroidsdk.ReAndroidSDK
 import io.mob.resu.reandroidsdk.ResulticksChannel
 import org.json.JSONObject
-import com.google.firebase.messaging.RemoteMessage
-import java.util.logging.StreamHandler
+import android.os.Bundle
+import android.util.Log
+
+
 //import kotlin.random.Random
 
 
 /** FluttersdkpluginPlugin */
 class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
+
+
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -31,13 +36,13 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
   private lateinit var context: Context
   private lateinit var activity: Activity
  private lateinit var eventChannel: EventChannel
-
-
+ private lateinit var mycontext:Context
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "fluttersdkplugin")
     channel.setMethodCallHandler(this)
     context = flutterPluginBinding.getApplicationContext()
+
     //eventChannel= EventChannel(flutterPluginBinding.binaryMessenger,"example.com/channel")
 
 //    val handler = Handler(Looper.getMainLooper())
@@ -107,6 +112,7 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
     else if(call.method == "readNotificationCount") {
 
       result.success(ReAndroidSDK.getInstance(context).readNotificationCount)
+
     }
     else if(call.method == "updatePushToken") {
       var token: String?=call.argument("regToken")
@@ -159,27 +165,32 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
 
       }
     }
-//    else if(call.method == "onMessageReceived") {
-//      var tittle: String? = call.argument("title")
-//      if (tittle != null) {
-//       print("Received a $tittle")
-//        eventChannel.setStreamHandler(MessageNotifier())
-//      }
-//    }
+    else if(call.method == "onMessageReceived") {
+      var remoteMessage:RemoteMessage?=call.argument("msg")
+     if(remoteMessage!=null){
+         ReAndroidSDK.getInstance(context).onReceivedCampaign(remoteMessage.data)
+      }
 
+    }
+    else if(call.method == "getNotifications") {
+        var nTable=ReAndroidSDK.getInstance(context).notifications
+      Log.d("getNoti", "Notification : $nTable")
+    }
     else {
       result.notImplemented()
     }
   }
   fun initResdk(flutterContext:Context){
 //   var appContext=flutterContext.applicationContext as Application
+
     ReAndroidSDK.getInstance(flutterContext)
     AppConstants.LogFlag=true;
   }
-  fun clientMessageReceiver(remoteMessage:RemoteMessage){
-
-    ReAndroidSDK.getInstance(context).onReceivedCampaign(remoteMessage.data)
+  fun clientMessageReceiver(remoteMessage:RemoteMessage,flutterContext: Context){
+    io.flutter.Log.d("msgTrace", "From native code!!!!")
+    ReAndroidSDK.getInstance(flutterContext).onReceivedCampaign(remoteMessage.data)
   }
+
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)

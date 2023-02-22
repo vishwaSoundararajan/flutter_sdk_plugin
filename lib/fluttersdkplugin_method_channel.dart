@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:ffi';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
@@ -86,10 +86,14 @@ class MethodChannelFluttersdkplugin extends FluttersdkpluginPlatform {
   unReadNotification(String cid) {
     methodChannel.invokeMapMethod('unReadNotification',{'cid':cid});
   }
-  // @override
-  // onMessageReceived(String title){
-  //   methodChannel.invokeMethod('onMessageReceived',{'title':title});
-  //     eventTriggered();
-  // }
+  @override
+  onMessageReceived(RemoteMessage msg){
+    methodChannel.invokeMethod('onMessageReceived',{'msg':msg});
 
+  }
+  @override
+  getNotification(){
+    methodChannel.invokeMethod('getNotifications');
+
+  }
 }

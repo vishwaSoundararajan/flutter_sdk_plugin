@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'fluttersdkplugin_platform_interface.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Fluttersdkplugin {
   Future<String?> getPlatformVersion() {
@@ -45,9 +47,12 @@ class Fluttersdkplugin {
   void unReadNotification(String cid) {
     FluttersdkpluginPlatform.instance.unReadNotification(cid);
   }
-  // onMessageReceived(String title) {
-  //  FluttersdkpluginPlatform.instance.onMessageReceived(title);
-  //
-  // }
+  onMessageReceived(RemoteMessage msg) {
+   FluttersdkpluginPlatform.instance.onMessageReceived(msg);
 
+  }
+  getNotification() {
+    FluttersdkpluginPlatform.instance.getNotification();
+
+  }
 }

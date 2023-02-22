@@ -6,29 +6,46 @@ import 'package:flutter/services.dart';
 import 'package:fluttersdkplugin/fluttersdkplugin.dart';
 import 'package:fluttersdkplugin/fluttersdkplugin_method_channel.dart';
 import 'package:logger/logger.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+
+//
+// @pragma('vm:entry-point')
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   // If you're going to use other Firebase services in the background, such as Firestore,
+//   // make sure you call `initializeApp` before using other Firebase services.
+//   await Firebase.initializeApp();
+//
+//   _fluttersdkpluginPlugin.onMessageReceived(message);
+// }
+
+
+final _fluttersdkpluginPlugin = Fluttersdkplugin();
+main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   TextEditingController controller1 = TextEditingController();
-  String _platformVersion = 'Unknown',token = "drqaIAt0TvW1x0zi7gOsLf:APA91bEKJFpCpld3QvWYxPSkzVzu3JH7wwrRhad8Pgqnr2TZ82NkxvK31VMiKpLCeloRC-SJImNaRrGFDCydSuCPlg5Ze2tL06-NntJbq-THcO2u-CQW1n5Nx_w1yw0dEYcRudDNIoxe";
+  String _platformVersion = 'Unknown',token = "cD9BPeN-Q-CdpR9BtICoHh:APA91bF7pWa4x80s-QJeEUKR-v6hp0jHeXNPKwrAO1fSyA7hfJZF7tnQGFTEXZavVfcAOAbVFm2gxgnmNyXHcvrjGCI--p1zPp83k0NWupKF2v4ZEclwZjPcEVZFbI4p6IdPkg5XEBeD";
   int notificationCount = 0,_counter=0;
   late String cid;
   String data="";
 
   var logger = Logger();
   late Timer _timer;
-  final _fluttersdkpluginPlugin = Fluttersdkplugin();
-  final _methodChannelflutterSdkPlugin= MethodChannelFluttersdkplugin();
+
   static const events = EventChannel('com.example.fluttersdkplugin_example/channell');
   static const methodChannel=MethodChannel("flutter/test/platformChannels");
 // void onMethodCall(MethodCall call){
@@ -40,6 +57,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
+
     initPlatformState();
     startTimer();
     //eventTriggered();
@@ -54,7 +73,10 @@ class _MyAppState extends State<MyApp> {
     });
   }
   listenForMsg(){
-    events.receiveBroadcastStream().listen((data) {
+    events.receiveBroadcastStream().listen((dataa) {
+      setState(() {
+        data=dataa;
+      });
       if(data != ""){
         logger.i("EventChannel :: $data");
       }
@@ -219,64 +241,110 @@ class _MyAppState extends State<MyApp> {
                       Center(
                         child: Text('Running on: $_platformVersion\n'),
                       ),
-                      Center(
-                        child: Text('Data Passed from NativeCode: $data!'),
+                      // Center(
+                      //   child: Text('Data Passed from NativeCode: $data!'),
+                      // ),
+                      SizedBox(
+                          width:double.infinity,
+                          child:  ElevatedButton(onPressed: () { //
+                            ondeviceRegister();
+                          }, child: Text("On Device User Register"),),
                       ),
-                      ElevatedButton(onPressed: () {
-                        passLocation();
-                      }, child: Text("Push Location"),),
-                      ElevatedButton(onPressed: () {
-                        newNotification();
-                        //_fluttersdkpluginPlugin.onMessageReceived("Background Notification");
+                      SizedBox(
+                          width:double.infinity,
+                          child:ElevatedButton(onPressed: () {
+                            updatepushToken();
+                          }, child: Text("update Push Token"),), 
+                      ),
+                      SizedBox(
+                          width:double.infinity,
+                          child:  ElevatedButton(onPressed: () {
+                            passLocation();
+                          }, child: Text("Update Location"),),
+                      ),
+                      SizedBox(
+                          width:double.infinity,
+                          child:ElevatedButton(
 
-                      }, child: Text("Add New Notification"),),
-                      ElevatedButton(onPressed: () {
-                        ontrackEvent();
-
-                      }, child: Text("On Track Event"),),
+                            onPressed: () {
+                              newNotification();
+                            },child: Text("Add New Notification"),),
+                      ),
                       TextField(
                         controller: controller1,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                             labelText: "Enter ID",
-
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20))),),
-                      ElevatedButton(onPressed: () {
-                        deleteNotificationByCampaignid();
-                      }, child: Text("delete Notification By Campaignid"),),
-                      ElevatedButton(onPressed: () {
-                        readnotification();
-                      }, child: Text("read Notification"),),
-                      ElevatedButton(onPressed: () {
+                      SizedBox(
+                          width:double.infinity,
+                          child:ElevatedButton(onPressed: () {
+                            readnotification();
+                          }, child: Text("Read Notification By Id"),),
+                      ),
+                      SizedBox(
+                        width:double.infinity,
+                        child:    ElevatedButton(onPressed: () {
+                          _fluttersdkpluginPlugin.getNotification();
+                        }, child: Text("Get Notifications"),),
+                      ),
+                      SizedBox(
+                          width:double.infinity,
+                          child:    ElevatedButton(onPressed: () {
+                            unreadNotification();
+                          }, child: Text("Un Read Notification"),),
+                      ),
+                      SizedBox(
+                        width:double.infinity,
+                        child: ElevatedButton(onPressed: () {
+                          readnotificationCount();
+                        }, child: const Text("Read Notification Count"),),
+                      ),
+                      SizedBox(
+                          width:double.infinity,
+                          child:  ElevatedButton(onPressed: () {
+                            deleteNotificationByCampaignid();
+                            setState(() {
+                              controller1.clear();
+                            });
+                          }, child: Text("Delete Notification By CampaignId"),),
+                      ),
+
+                      SizedBox(
+                          width:double.infinity,
+                          child: ElevatedButton(onPressed: () {
+                            formdataCapture();
+                          }, child: Text("form Data Capture"),),
+                      ),
+                      SizedBox(
+                          width:double.infinity,
+                          child:ElevatedButton(onPressed: () {
+                            ontrackEvent();
+                          }, child: Text("On Track Event"),),
+                      ),
+                      SizedBox(
+                      width:double.infinity,
+                      child:ElevatedButton(onPressed: () {
                         appconversionTracking();
                       }, child: Text("app Conversion Tracking"),),
-                      ElevatedButton(onPressed: () {
-                        formdataCapture();
-                      }, child: Text("form Data Capture"),),
-                      ElevatedButton(onPressed: () {
-                        readnotificationCount();
-                      }, child: Text("read Notification Count"),),
-                      ElevatedButton(onPressed: () {
-                        updatepushToken();
-                      }, child: Text("update Push Token"),),
-                      ElevatedButton(onPressed: () { //
-                        ondeviceRegister();
-                      }, child: Text("On Device User Register"),),
-                      ElevatedButton(onPressed: () {
-                        getdeepLinkData();
-                      }, child: Text("Get deepLinkData"),),
-                      ElevatedButton(onPressed: () {
-                        unreadNotification();
-                      }, child: Text("un Read Notification"),),
-                      // ElevatedButton(onPressed: () {
-                      //   callToAndroid();
-                      // }, child: Text("callToAndroid"),),
+                    ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(onPressed: () {
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size.fromHeight(40),);
+                          getdeepLinkData();
+                        }, child: Text("Get deepLinkData"),),
+                      ),
+
+
                     ],
                   ),
                 ),
               ),
-            ),)
-      );
+            ),
+          )
+       );
     }
 }
