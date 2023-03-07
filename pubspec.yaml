@@ -1,7 +1,8 @@
 name: fluttersdkplugin
 description: Plug-ins first gained popularity in the 1990s as software and microprocessors became more powerful. One of the first programs to make extensive use of plug-ins was Adobe Photoshop, an image-processing and editing program. Early plug-ins provided enhanced functions such as special effects, filters, and other options for manipulating images within Photoshop.gin package.
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/vishwaSoundararajan/flutter_sdk_plugin.git
+
 
 environment:
   sdk: '>=2.18.4 <3.0.0'
