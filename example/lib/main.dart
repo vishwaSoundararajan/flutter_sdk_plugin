@@ -23,9 +23,9 @@ import 'package:firebase_core/firebase_core.dart';
 
 final _fluttersdkpluginPlugin = Fluttersdkplugin();
 main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await Firebase.initializeApp();
 
   runApp(const MyApp());
 }
@@ -38,7 +38,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   TextEditingController controller1 = TextEditingController();
-  String _platformVersion = 'Unknown',token = "cD9BPeN-Q-CdpR9BtICoHh:APA91bF7pWa4x80s-QJeEUKR-v6hp0jHeXNPKwrAO1fSyA7hfJZF7tnQGFTEXZavVfcAOAbVFm2gxgnmNyXHcvrjGCI--p1zPp83k0NWupKF2v4ZEclwZjPcEVZFbI4p6IdPkg5XEBeD";
+  String _platformVersion = 'Unknown',token = "ezyY7vF9TSqiwA3wxwJmYC:APA91bENxHnr2Z2XFHRpbu7GVJklVnDjs7phmEh2M4YNcxxxrPNRw1wtlvwAkGES_uEH8-wRAck30oBkvOwlZ0fJOyVYbcuOAaiOlHGwA9LTLxFnT5iAPAQEGN2LIgfyh6Ax9Iw5Kcf7";
   int notificationCount = 0,_counter=0;
   late String cid;
   String data="";
@@ -57,6 +57,15 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    // Firebase.initializeApp();
+    // FirebaseMessaging.instance.getToken().then((newToken) {
+    //   print("FCM token: ");
+    //   print(newToken);
+    //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //     print('Got a message whilst in the foreground!');
+    //     print('Message data: ${message.notification} ');
+    //   });
+    // });
 
 
     initPlatformState();
@@ -128,13 +137,23 @@ class _MyAppState extends State<MyApp> {
         "MobileNo": 9329222922,
         "Gender": "Male",
         "formid": 101, // required
-        "apikey": "e37315c0-8578-4bd2-a38a-cbba5dba8110",
+        "apikey": "api_key_b78db6b3-9462-4132-a4d3-894db10b3782",
         "City": "Chennai" // required
       };
       String formData = jsonEncode(param);
       _fluttersdkpluginPlugin.formDataCapture(formData);
     }
-    updatepushToken() {
+  customevent(){
+      var data = {
+        "name": "payment",
+        "data": {"id": "2d43", "price": "477"}
+      };
+      String eventData = jsonEncode(data);
+      _fluttersdkpluginPlugin.customevent(eventData,"Custom Event");
+    }
+
+
+  updatepushToken() {
       _fluttersdkpluginPlugin.updatePushToken(token);
     }
     ondeviceRegister() {
@@ -336,6 +355,14 @@ class _MyAppState extends State<MyApp> {
                             minimumSize: Size.fromHeight(40),);
                           getdeepLinkData();
                         }, child: Text("Get deepLinkData"),),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(onPressed: () {
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size.fromHeight(40),);
+                          customevent();
+                        }, child: Text("CustomEvent"),),
                       ),
 
 

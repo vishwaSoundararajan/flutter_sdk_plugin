@@ -26,7 +26,7 @@ open class MainActivity: FlutterActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _fluttersdkplugin=FluttersdkpluginPlugin()
-        _fluttersdkplugin.initResdk(this)
+         _fluttersdkplugin.initResdk(this)
 
         eChannel.setStreamHandler(MessageNotifier(""))
 
@@ -51,10 +51,6 @@ open class MainActivity: FlutterActivity() {
                 callEventChannel(message)
             }
         }
-
-
-
-
 
     }
 

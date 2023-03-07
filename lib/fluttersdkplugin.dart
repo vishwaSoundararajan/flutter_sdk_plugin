@@ -49,10 +49,11 @@ class Fluttersdkplugin {
   }
   onMessageReceived(RemoteMessage msg) {
    FluttersdkpluginPlatform.instance.onMessageReceived(msg);
-
   }
   getNotification() {
     FluttersdkpluginPlatform.instance.getNotification();
-
+  }
+  customevent(String eventData,String event){
+    FluttersdkpluginPlatform.instance.customevent(eventData,event);
   }
 }

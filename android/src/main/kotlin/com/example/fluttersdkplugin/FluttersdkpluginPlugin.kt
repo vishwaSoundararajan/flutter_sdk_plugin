@@ -176,15 +176,22 @@ class FluttersdkpluginPlugin: FlutterPlugin,MethodCallHandler {
         var nTable=ReAndroidSDK.getInstance(context).notifications
       Log.d("getNoti", "Notification : $nTable")
     }
+    else if(call.method == "customevent") {
+      val event: String?=call.argument("event")
+      val eventData:String? = call.argument("eventData")
+      val jobj= eventData?.let { JSONObject(it) }
+      if (eventData != null) {
+        ReAndroidSDK.getInstance(context).onTrackEvent(jobj,event)
+      }
+
+    }
     else {
       result.notImplemented()
     }
   }
   fun initResdk(flutterContext:Context){
-//   var appContext=flutterContext.applicationContext as Application
-
     ReAndroidSDK.getInstance(flutterContext)
-    AppConstants.LogFlag=true;
+    AppConstants.LogFlag=true
   }
   fun clientMessageReceiver(remoteMessage:RemoteMessage,flutterContext: Context){
     io.flutter.Log.d("msgTrace", "From native code!!!!")

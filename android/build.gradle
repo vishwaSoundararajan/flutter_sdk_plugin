@@ -57,9 +57,10 @@ android {
     dependencies{
         implementation 'io.resu:ReAndroidSDK_5f7a2e8e_1bdb_4739_9d28_278a2759394c:-SNAPSHOT'
         implementation 'com.google.code.gson:gson:2.8.6'
+        implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
     }
 }
 
-dependencies {
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
-}
+//dependencies {
+//    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
+//}

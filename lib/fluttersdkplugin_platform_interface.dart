@@ -83,4 +83,8 @@ abstract class FluttersdkpluginPlatform extends PlatformInterface {
 
   }
 
+  void customevent(String eventData, String event) {
+    throw UnimplementedError('customevent() has not been implemented.');
+  }
+
 }

@@ -94,6 +94,10 @@ class MethodChannelFluttersdkplugin extends FluttersdkpluginPlatform {
   @override
   getNotification(){
     methodChannel.invokeMethod('getNotifications');
-
   }
+  @override
+  customevent(String eventData,String event){
+    methodChannel.invokeMapMethod('customevent',{"eventData":eventData,"event":event});
+  }
+
 }
