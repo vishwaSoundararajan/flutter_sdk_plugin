@@ -62,7 +62,7 @@
 
        <meta-data
            android:name="resulticks.key"
-           android:value="your_key" />
+           android:value="Your_key" />
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />

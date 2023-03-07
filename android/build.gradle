@@ -55,7 +55,7 @@ android {
         minSdkVersion 16
     }
     dependencies{
-        implementation 'io.resu:ReAndroidSDK_5f7a2e8e_1bdb_4739_9d28_278a2759394c:-SNAPSHOT'
+        implementation 'io.resu:ReAndroidSDK_3c675be0_b0db_4d2e_a2c6_8ffe8a6e63b4:-SNAPSHOT'
         implementation 'com.google.code.gson:gson:2.8.6'
         implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
     }
